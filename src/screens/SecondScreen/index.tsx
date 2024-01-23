@@ -4,7 +4,7 @@ import React from 'react';
 const SecondScreen = () => {
   return (
     <View>
-      <Text>Merhaba</Text>
+      <Text>asasfsaf</Text>
     </View>
   );
 };

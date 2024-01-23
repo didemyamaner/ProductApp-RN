@@ -24,7 +24,7 @@ const ProductScreen = () => {
   return (
     <View style={style.container}>
       <View>
-        <Text style={style.title}>Hoşgeldiniz</Text>
+        <Text style={style.title}>safasf</Text>
         <Text style={style.bottom}>Liste</Text>
         <FlatList
           data={data}
