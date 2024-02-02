@@ -2,11 +2,14 @@ import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {ProductType} from '../types';
 import style from './style';
-import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/AntDesign';
+import {TabStackScreenProps} from '../../navigation/types';
 
-const ProductScreen = () => {
+const ProductScreen = ({
+  navigation,
+}: TabStackScreenProps<'TabNavigator', 'ProductScreen'>) => {
   const [data, setData] = useState<ProductType[]>([]);
-  const navigation = useNavigation();
+
   useEffect(() => {
     (async () => {
       fetch('https://65ae163b1dfbae409a73e9c8.mockapi.io/api/v1/products')
@@ -17,49 +20,41 @@ const ProductScreen = () => {
     })();
   }, []);
 
-  const handleTouchableOpacityPress = () => {
-    navigation.navigate('SecondScreen');
+  const handleTouchableOpacityPress = (item: ProductType) => {
+    navigation.navigate('ProductDetailScreen', {data: item});
   };
 
   return (
     <View style={style.container}>
       <View>
-        <Text style={style.title}>safasf</Text>
-        <Text style={style.bottom}>Liste</Text>
+        <View>
+          <Text style={style.title}>Product</Text>
+        </View>
+        <Text style={style.bottom}>List</Text>
+
         <FlatList
           data={data}
           numColumns={2}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <TouchableOpacity
-              style={{
-                backgroundColor: 'pink',
-                padding: 10,
-                margin: 10,
-                flex: 1,
-              }}
-              onPress={handleTouchableOpacityPress}>
-              <View
-                style={{
-                  backgroundColor: 'red',
-                  flex: 1,
-                }}>
+              style={style.productBar}
+              onPress={() => handleTouchableOpacityPress(item)}>
+              <View style={{flex: 1}}>
                 <Image
-                  style={{
-                    backgroundColor: 'blue',
-                    flex: 1,
-                    //resizeMode: 'cover',
-                    //width: 100,
-                    height: 100,
-                  }}
+                  style={style.imageOfProduct}
                   source={{
                     uri: item.image,
                   }}
                 />
               </View>
 
-              <Text>{item.productName}</Text>
-              <Text>{item.price}</Text>
+              <Text style={style.nameOfProduct}>{item.productName}</Text>
+
+              <View style={style.iconContainer}>
+                <Text style={style.priceOfProduct}>${item.price}</Text>
+                <Icon name="shoppingcart" size={18} color="black" />
+              </View>
             </TouchableOpacity>
           )}
         />
